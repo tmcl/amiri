@@ -18,6 +18,32 @@ feature ccmp {
 } ccmp;
 
 #
+# cv53: Quranic small madda (opt-in)
+#
+# Most real-world Quranic sources (Tanzil, KFGQPC) encode with ordinary
+# madda above (U+0653, madda-ar) or its precomposed form (U+0622,
+# alefMadda-ar) rather than the smaller Quran-specific small-high-madda
+# (U+06E4, maddalong-ar) this project's own documentation recommends for
+# Quranic text. This opt-in Character Variant lets such text render with
+# the smaller Quranic-style madda glyph on request, without changing
+# default rendering for ordinary Arabic text using U+0653/U+0622 as
+# intended.
+feature cv53 {
+    cvParameters {
+        FeatUILabelNameID {
+            name 3 1 0x0409 "Quranic small madda";
+            name 3 1 0x0C01 "علامة المد القرآنية الصغيرة";
+        };
+        FeatUITooltipTextNameID {
+            name 3 1 0x0409 "Renders ordinary maddah (U+0653) and precomposed alef-madda (U+0622) using the smaller Quranic-specific small-high-madda glyph (U+06E4).";
+        };
+    };
+    sub madda-ar by maddalong-ar;
+    sub alefMadda-ar by alef-ar maddalong-ar;
+    sub alefMadda-ar.fina by alef-ar.fina maddalong-ar;
+} cv53;
+
+#
 # Medial hamza
 #
 # Hamza should be shaping transparent, just like combining marks, while still
