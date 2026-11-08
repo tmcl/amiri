@@ -44,6 +44,57 @@ feature cv53 {
 } cv53;
 
 #
+# Context-sensitive small alef (automatic NBSP/kashida equivalent)
+#
+# The ccmp rule above requires the text to pre-encode an explicit NBSP or
+# kashida carrier before a dagger alef (alefabove-ar) to get the correct
+# spacing-letter rendering. Most real-world Quranic text (Tanzil, KFGQPC)
+# doesn't do this -- it just uses a bare combining dagger alef everywhere,
+# which by default renders as an ordinary floating combining mark (correct
+# for some cases, wrong for others -- see below). This block lets bare
+# input reach the *same* correctly-shaped result the explicit NBSP/kashida
+# encoding already produces, purely from context, as an alternative input
+# method -- it only matches the bare, unprefixed glyph, so text already
+# using the explicit encoding is untouched.
+#
+# Two genuinely different things look identical as a bare dagger alef:
+#   Type 1 (true combining mark, left untouched here): the preceding
+#     letter itself is being read as /a:/ -- waw with no fatha of its own
+#     ("al-salah"), or alef maksura ("Musa", confirmed always direct, no
+#     intervening mark, across every occurrence in the Quran).
+#   Type 2 (spacing "omitted alef" letter, substituted to .isol/.medi
+#     below): a genuinely separate, elided alef after a letter that keeps
+#     its own ordinary pronunciation -- any non-joining letter (alef, dal,
+#     thal, reh, zain, hamza), or waw *with* its own fatha ("sawaAEiq", a
+#     real /wa/ syllable followed by a separately-omitted alef -- this is
+#     in fact the majority case for waw, not the minority).
+@NonJoiningLetterFina = [@aAlf.fina @aDal.fina @aRaa.fina];
+@NonJoiningLetterIsol = [@aAlf.isol @aDal.isol @aRaa.isol];
+@JoiningLetterFina = [@aAyn.fina @aBaa.fina @aFaa.fina @aHaa.fina @aHeh.fina @aKaf.fina @aGaf.fina @aLam.fina @aMem.fina @aNon.fina @aQaf.fina @aSad.fina @aSen.fina @aTaa.fina yeh-ar.fina yehFarsi-ar.fina yehHamzaabove-ar.fina yehVabove-ar.fina yehKashmiri-ar.fina yehTail-ar.fina yehFarsiTwoabove-ar.fina yehFarsiThreeabove-ar.fina yehFarsiVinverted-ar.fina yehFarsiTwodotsabove-ar.fina yehFarsiThreedotsabove-ar.fina yehThreedotsbelow-ar.fina yehFarsiFourbelow-ar.fina e-ar.fina @aYaaBari.fina];
+@JoiningLetterIsol = [@aAyn.isol @aBaa.isol @aFaa.isol @aHaa.isol @aHeh.isol @aKaf.isol @aGaf.isol @aLam.isol @aMem.isol @aNon.isol @aQaf.isol @aSad.isol @aSen.isol @aTaa.isol yeh-ar yehFarsi-ar yehHamzaabove-ar yehVabove-ar yehKashmiri-ar yehTail-ar highhamzaYeh-ar yehFarsiTwoabove-ar yehFarsiThreeabove-ar yehFarsiVinverted-ar yehFarsiTwodotsabove-ar yehFarsiThreedotsabove-ar yehThreedotsbelow-ar yehFarsiFourbelow-ar e-ar @aYaaBari.isol];
+
+lookup DaggerAlefIsol {
+    sub alefabove-ar by alefabove-ar.isol;
+} DaggerAlefIsol;
+
+lookup DaggerAlefMedi {
+    sub alefabove-ar by alefabove-ar.medi;
+} DaggerAlefMedi;
+
+feature ccmp {
+    # Hamza (any form) and the genuinely non-joining consonants: always the
+    # isol (NBSP-equivalent) form.
+    sub [hamza-ar hamza-ar.medi hamza-ar.float @NonJoiningLetterFina @NonJoiningLetterIsol] alefabove-ar' lookup DaggerAlefIsol;
+    # Waw followed by its own fatha, then a bare dagger alef: a real /wa/
+    # syllable plus a separately-omitted alef, not waw-as-aa.
+    sub [@aWaw.fina @aWaw.isol] fatha-ar alefabove-ar' lookup DaggerAlefIsol;
+    # Ordinary joining letters: the medi (kashida-equivalent) form.
+    sub [@JoiningLetterFina @JoiningLetterIsol] alefabove-ar' lookup DaggerAlefMedi;
+    # Waw with no fatha of its own, and alef maksura, fall through
+    # untouched -- the genuine Type 1 cases.
+} ccmp;
+
+#
 # Medial hamza
 #
 # Hamza should be shaping transparent, just like combining marks, while still
