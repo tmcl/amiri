@@ -114,7 +114,19 @@ def generateFont(options, font):
     # anchor-based mark-to-base positioning rule in the font (not just the
     # overline one) for the Quran build specifically. "append" adds our
     # generated lookups alongside the hand-written one instead.
-    markWriter = MarkFeatureWriter(mode="append")
+    #
+    # groupMarkClasses=True: this is what actually activates our
+    # anchorSortKey-driven _groupMarkClasses override below (monkey-patched
+    # onto the class near the top of this file). ufo2ft's MarkFeatureWriter
+    # only calls that override when this option is on; its own default
+    # (False) falls back to one lookup per mark class ordered by plain
+    # alphabetical sort of the anchor name (with only "_top"/"_bottom"
+    # special-cased to sort last). Left at the default, our anchorSortKey
+    # is silently never consulted, and ties between a base glyph's two
+    # candidate anchors (e.g. "_AlefAbove" vs "_TashkilAbove") are broken
+    # alphabetically instead of by the priority we intend -- "_AlefAbove"
+    # sorts before "_TashkilAbove", so the *wrong* one would win.
+    markWriter = MarkFeatureWriter(mode="append", groupMarkClasses=True)
 
     # Maintain our desired lookup order.
     markWriter.anchorSortKey = {
