@@ -82,14 +82,21 @@ lookup DaggerAlefMedi {
 } DaggerAlefMedi;
 
 feature ccmp {
-    # Hamza (any form) and the genuinely non-joining consonants: always the
-    # isol (NBSP-equivalent) form.
+    # Hamza (any form) and the genuinely non-joining consonants, optionally
+    # followed by their own fatha, then a bare dagger alef: the isol
+    # (NBSP-equivalent) form. In real Tanzil 1.1 text the fatha is in fact
+    # always present here (dhalika, siraat, etc. are all written base+fatha
+    # +dagger, never base+dagger directly) -- both forms are matched for
+    # robustness against other encodings that might omit it.
     sub [hamza-ar hamza-ar.medi hamza-ar.float @NonJoiningLetterFina @NonJoiningLetterIsol] alefabove-ar' lookup DaggerAlefIsol;
+    sub [hamza-ar hamza-ar.medi hamza-ar.float @NonJoiningLetterFina @NonJoiningLetterIsol] fatha-ar alefabove-ar' lookup DaggerAlefIsol;
     # Waw followed by its own fatha, then a bare dagger alef: a real /wa/
     # syllable plus a separately-omitted alef, not waw-as-aa.
     sub [@aWaw.fina @aWaw.isol] fatha-ar alefabove-ar' lookup DaggerAlefIsol;
-    # Ordinary joining letters: the medi (kashida-equivalent) form.
+    # Ordinary joining letters, optionally followed by their own fatha, then
+    # a bare dagger alef (no kashida): the medi (kashida-equivalent) form.
     sub [@JoiningLetterFina @JoiningLetterIsol] alefabove-ar' lookup DaggerAlefMedi;
+    sub [@JoiningLetterFina @JoiningLetterIsol] fatha-ar alefabove-ar' lookup DaggerAlefMedi;
     # Waw with no fatha of its own, and alef maksura, fall through
     # untouched -- the genuine Type 1 cases.
 } ccmp;
