@@ -28,6 +28,10 @@ feature ccmp {
 # the smaller Quranic-style madda glyph on request, without changing
 # default rendering for ordinary Arabic text using U+0653/U+0622 as
 # intended.
+lookup AlefMaddaCv53Wide {
+    sub alefMadda-ar.fina by alef-ar.fina.Wide maddalong-ar;
+} AlefMaddaCv53Wide;
+
 feature cv53 {
     cvParameters {
         FeatUILabelNameID {
@@ -39,8 +43,16 @@ feature cv53 {
         };
     };
     sub madda-ar by maddalong-ar;
-    sub alefMadda-ar by alef-ar maddalong-ar;
+    # contextuals.fea's own rlig rule normally widens a final alef before
+    # madda-ar/maddalong-ar when it follows a tashkil mark (e.g. fatha) --
+    # but rlig always runs before this discretionary cv53 feature in
+    # OpenType's fixed feature-application order, so it never sees the
+    # alef+maddalong-ar sequence this feature creates below. Replicate it
+    # here so cv53 produces the same widened glyph rlig would have, had it
+    # run after us.
+    sub @Tashkil.above alefMadda-ar.fina' lookup AlefMaddaCv53Wide;
     sub alefMadda-ar.fina by alef-ar.fina maddalong-ar;
+    sub alefMadda-ar by alef-ar maddalong-ar;
 } cv53;
 
 #
