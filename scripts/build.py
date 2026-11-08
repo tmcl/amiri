@@ -106,7 +106,15 @@ def generateFont(options, font):
     info.openTypeNameLicense = "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: https://openfontlicense.org"
     info.openTypeNameLicenseURL = "https://openfontlicense.org"
 
-    markWriter = MarkFeatureWriter()
+    # mode="append": makeOverLine() (used for the Quran build) writes its own
+    # small hand-authored "mark" feature block to pick the right-width
+    # overline glyph. ufo2ft's feature writers default to mode="skip", which
+    # treats any existing block under the same tag as "already handled" and
+    # skips auto-generating that feature entirely -- silently dropping every
+    # anchor-based mark-to-base positioning rule in the font (not just the
+    # overline one) for the Quran build specifically. "append" adds our
+    # generated lookups alongside the hand-written one instead.
+    markWriter = MarkFeatureWriter(mode="append")
 
     # Maintain our desired lookup order.
     markWriter.anchorSortKey = {
