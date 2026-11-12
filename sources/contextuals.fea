@@ -520,6 +520,15 @@ feature rlig {
     sub @aLam.medi' lookup LamMemFina @Tashkil.below' @Tashkil.above' @aMem.fina' lookup LamMemFinaExtended @Tashkil.above';
     sub @aLam.medi' lookup LamMemFina @Tashkil.above' @Tashkil.below' @aMem.fina' lookup LamMemFinaExtended @Tashkil.above';
     sub @aLam.medi' lookup LamMemFina @Tashkil.below' @aMem.fina' lookup LamMemFinaExtended @Tashkil.below';
+    # mirror of the above-ending rules, for when the final meem itself
+    # carries a below mark (kasra/kasratan) instead of an above one -- the
+    # narrow default ligature's tail otherwise clashes with it.
+    sub @aLam.medi' lookup LamMemFina @Tashkil.above' @aMem.fina' lookup LamMemFinaExtended @Tashkil.below';
+    sub @aLam.medi' lookup LamMemFina @Tashkil.above' @Tashkil.above' @aMem.fina' lookup LamMemFinaExtended @Tashkil.below' @Tashkil.below';
+    sub @aLam.medi' lookup LamMemFina @Tashkil.above' @Tashkil.above' @aMem.fina' lookup LamMemFinaExtended @Tashkil.below';
+    sub @aLam.medi' lookup LamMemFina @Tashkil.above' @aMem.fina' lookup LamMemFinaExtended @Tashkil.below' @Tashkil.below';
+    sub @aLam.medi' lookup LamMemFina @Tashkil.below' @Tashkil.above' @aMem.fina' lookup LamMemFinaExtended @Tashkil.below';
+    sub @aLam.medi' lookup LamMemFina @Tashkil.above' @Tashkil.below' @aMem.fina' lookup LamMemFinaExtended @Tashkil.below';
 } rlig;
 
 # ditto
@@ -535,6 +544,13 @@ feature rlig {
     sub [@aLam.init @aKaf.init]' lookup KafMemIsol @Tashkil.below' @Tashkil.above' @aMem.fina' lookup MemExtended @Tashkil.above';
     sub [@aLam.init @aKaf.init]' lookup KafMemIsol @Tashkil.above' @Tashkil.below' @aMem.fina' lookup MemExtended @Tashkil.above';
     sub [@aLam.init @aKaf.init]' lookup KafMemIsol @Tashkil.below' @aMem.fina' lookup MemExtended @Tashkil.below';
+    # ditto (see LamMemFinaExtended above)
+    sub [@aLam.init @aKaf.init]' lookup KafMemIsol @Tashkil.above' @aMem.fina' lookup MemExtended @Tashkil.below';
+    sub [@aLam.init @aKaf.init]' lookup KafMemIsol @Tashkil.above' @Tashkil.above' @aMem.fina' lookup MemExtended @Tashkil.below' @Tashkil.below';
+    sub [@aLam.init @aKaf.init]' lookup KafMemIsol @Tashkil.above' @Tashkil.above' @aMem.fina' lookup MemExtended @Tashkil.below';
+    sub [@aLam.init @aKaf.init]' lookup KafMemIsol @Tashkil.above' @aMem.fina' lookup MemExtended @Tashkil.below' @Tashkil.below';
+    sub [@aLam.init @aKaf.init]' lookup KafMemIsol @Tashkil.below' @Tashkil.above' @aMem.fina' lookup MemExtended @Tashkil.below';
+    sub [@aLam.init @aKaf.init]' lookup KafMemIsol @Tashkil.above' @Tashkil.below' @aMem.fina' lookup MemExtended @Tashkil.below';
 } rlig;
 
 #ditto, but we don't have LamMemInit in Quran font
@@ -567,6 +583,13 @@ feature rlig {
     sub @aKaf.medi' lookup KafMemFina @Tashkil.below' @Tashkil.above' @aMem.fina' lookup KafMemFinaExtended @Tashkil.above;
     sub @aKaf.medi' lookup KafMemFina @Tashkil.above' @Tashkil.below' @aMem.fina' lookup KafMemFinaExtended @Tashkil.above';
     sub @aKaf.medi' lookup KafMemFina @Tashkil.below' @aMem.fina' lookup KafMemFinaExtended @Tashkil.below';
+    # ditto (see LamMemFinaExtended above)
+    sub @aKaf.medi' lookup KafMemFina @Tashkil.above' @aMem.fina' lookup KafMemFinaExtended @Tashkil.below';
+    sub @aKaf.medi' lookup KafMemFina @Tashkil.above' @Tashkil.above' @aMem.fina' lookup KafMemFinaExtended @Tashkil.below' @Tashkil.below';
+    sub @aKaf.medi' lookup KafMemFina @Tashkil.above' @Tashkil.above' @aMem.fina' lookup KafMemFinaExtended @Tashkil.below';
+    sub @aKaf.medi' lookup KafMemFina @Tashkil.above' @aMem.fina' lookup KafMemFinaExtended @Tashkil.below' @Tashkil.below';
+    sub @aKaf.medi' lookup KafMemFina @Tashkil.below' @Tashkil.above' @aMem.fina' lookup KafMemFinaExtended @Tashkil.below';
+    sub @aKaf.medi' lookup KafMemFina @Tashkil.above' @Tashkil.below' @aMem.fina' lookup KafMemFinaExtended @Tashkil.below';
 } rlig;
 
 # No IgnoreMarks here, to narrow to carry vowels
